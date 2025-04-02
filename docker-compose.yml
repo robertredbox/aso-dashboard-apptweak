@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # Node.js application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aso-dashboard-app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres_password
+      - DB_NAME=aso_dashboard
+      - DB_PORT=5432
+      - JWT_SECRET=your_jwt_secret_here
+      - JWT_EXPIRES_IN=1d
+      - APPTWEAK_API_KEY=${APPTWEAK_API_KEY}
+      - ASC_API_KEY=${ASC_API_KEY}
+      - ASC_ISSUER_ID=${ASC_ISSUER_ID}
+      - ASC_KEY_ID=${ASC_KEY_ID}
+      - ASC_PRIVATE_KEY=${ASC_PRIVATE_KEY}
+      - GOOGLE_PLAY_API_KEY=${GOOGLE_PLAY_API_KEY}
+      - APPLE_SEARCH_ADS_API_KEY=${APPLE_SEARCH_ADS_API_KEY}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - aso-network
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:15-alpine
+    container_name: aso-dashboard-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_DB=aso_dashboard
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - aso-network
+
+  # Nginx for serving the application
+  nginx:
+    image: nginx:alpine
+    container_name: aso-dashboard-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - app
+    networks:
+      - aso-network
+
+networks:
+  aso-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
