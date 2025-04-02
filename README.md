@@ -2,6 +2,10 @@
 
 A comprehensive App Store Optimization dashboard that integrates with AppTweak and other data sources to provide actionable insights for mobile app growth.
 
+## Demo
+
+A live demo of the project is available at [https://aso-dashboard-apptweak.vercel.app/](https://aso-dashboard-apptweak.vercel.app/)
+
 ## Features
 
 - **Multi-Source Data Integration**: Collect and unify data from AppTweak, App Store Connect, Google Play Developer Console, and Apple Search Ads.
@@ -17,47 +21,40 @@ A comprehensive App Store Optimization dashboard that integrates with AppTweak a
 - **Database**: PostgreSQL
 - **Visualization**: Recharts
 - **Authentication**: JWT-based auth system
-- **Deployment**: Docker containers on cloud infrastructure
+- **Deployment**: Vercel (frontend), Serverless Functions (API)
 
-## Detailed Features
+## Deployment Options
 
-### Data Collection
-- **AppTweak API**: Keyword rankings, category rankings, ASO score, competitor analysis
-- **App Store Connect API**: Downloads, page views, conversion rate, retention metrics
-- **Google Play Console API**: Android-specific metrics, install sources, ANRs
-- **Apple Search Ads API**: Impression share, taps, conversions, CPT, CPA 
+### Option 1: Vercel (Recommended for Quick Setup)
 
-### Dashboard Visualizations
-- Keyword rankings trends over time
-- Organic vs. paid installs
-- Conversion rate analysis
-- Keyword distribution by position
-- Ratings and reviews analysis
+This repository is configured for deployment on Vercel:
 
-### Correlation Analysis
-- Match paid ad spikes with organic keyword improvements
-- Calculate correlation between paid spend and organic metrics
-- Identify keywords with high organic impact from paid campaigns
+1. Fork or clone this repository
+2. Connect your Vercel account to your GitHub repository
+3. Deploy to Vercel
 
-### Insight Generation
-- Automated identification of ASO opportunities
-- Actionable recommendations for metadata optimization
-- Competitive gap analysis
-- Review sentiment insights
+The `vercel.json` configuration handles both the React frontend and serverless API routes.
 
-## Installation
+### Option 2: Docker (Full Stack Deployment)
+
+For a complete deployment with database:
+
+1. Clone the repository
+2. Configure environment variables in `.env` file based on `.env.example`
+3. Run with Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
+
+## Development Setup
 
 ### Prerequisites
 
 - Node.js 18+
 - npm or yarn
-- PostgreSQL
-- AppTweak API key
-- App Store Connect API key (optional for iOS apps)
-- Google Play Developer API access (optional for Android apps)
-- Apple Search Ads API access (optional for paid campaigns analysis)
+- PostgreSQL (if using the full backend)
 
-### Setting Up the Backend
+### Setting Up the Project
 
 1. Clone the repository:
    ```bash
@@ -70,125 +67,54 @@ A comprehensive App Store Optimization dashboard that integrates with AppTweak a
    npm install
    ```
 
-3. Create a `.env` file in the root directory and add your configuration:
-   ```
-   # Server Configuration
-   PORT=5000
-   NODE_ENV=development
-
-   # Database Configuration
-   DB_HOST=localhost
-   DB_USER=postgres
-   DB_PASSWORD=your_postgres_password
-   DB_NAME=aso_dashboard
-   DB_PORT=5432
-
-   # JWT Configuration
-   JWT_SECRET=your_jwt_secret_here
-   JWT_EXPIRES_IN=1d
-
-   # API Keys
-   APPTWEAK_API_KEY=your_apptweak_api_key
-   ASC_API_KEY=your_app_store_connect_api_key
-   ASC_ISSUER_ID=your_app_store_connect_issuer_id
-   ASC_KEY_ID=your_app_store_connect_key_id
-   ASC_PRIVATE_KEY=your_app_store_connect_private_key_path
-   GOOGLE_PLAY_API_KEY=your_google_play_api_key
-   APPLE_SEARCH_ADS_API_KEY=your_apple_search_ads_api_key
-   ```
-
-4. Create the database:
-   ```bash
-   createdb aso_dashboard
-   ```
-
-5. Run database migrations (this step will be added later):
-   ```bash
-   npm run migrate
-   ```
-
-### Setting Up the Frontend
-
-1. Navigate to the client directory:
+3. Install client dependencies:
    ```bash
    cd client
-   ```
-
-2. Install client dependencies:
-   ```bash
    npm install
+   cd ..
    ```
 
-### Running the Application
+4. Create a `.env` file based on `.env.example`
 
-1. Start the backend server from the root directory:
+5. Run the development server:
    ```bash
-   npm run dev:server
+   npm run dev
    ```
 
-2. In a new terminal, start the frontend:
-   ```bash
-   cd client
-   npm start
-   ```
+This will start both the frontend and backend in development mode. The frontend will be available at `http://localhost:3000` and the backend API at `http://localhost:5000`.
 
-3. Open your browser and navigate to `http://localhost:3000` to see the dashboard.
-
-## Development
-
-### Project Structure
+## Project Structure
 
 ```
 aso-dashboard-apptweak/
-├── server/               # Backend server code
-│   ├── config/           # Server configuration
-│   ├── controllers/      # Request handlers
-│   ├── middleware/       # Express middleware
-│   ├── models/           # Database models
-│   ├── routes/           # API routes
-│   ├── services/         # External API integrations
-│   └── utils/            # Utility functions
-├── client/               # React frontend
-│   ├── public/           # Static files
-│   └── src/              # React source code
-│       ├── components/   # React components
-│       ├── contexts/     # React contexts
-│       ├── layouts/      # Page layouts
-│       ├── pages/        # Page components
-│       └── services/     # API service integrations
-└── docs/                 # Documentation
+├── api/                 # Vercel serverless functions
+├── client/              # React frontend
+│   ├── public/          # Static files
+│   └── src/             # React source code
+│       ├── components/  # React components
+│       ├── contexts/    # React contexts
+│       ├── layouts/     # Page layouts
+│       ├── pages/       # Page components
+│       └── services/    # API service integrations
+├── nginx/               # Nginx configuration (for Docker deployment)
+├── server/              # Express backend (for Docker/self-hosted deployment)
+└── vercel.json          # Vercel deployment configuration
 ```
-
-### Backend API Structure
-
-- `GET /api/status`: API status check
-- `POST /api/auth/register`: Register new user
-- `POST /api/auth/login`: Login user
-- `GET /api/apps`: Get user's apps
-- `GET /api/apps/:id`: Get app details
-- `GET /api/keywords`: Get app keywords
-- `GET /api/keywords/history`: Get keyword ranking history
-- `GET /api/analytics/dashboard`: Get dashboard metrics
 
 ## Roadmap
 
 - [x] Repository setup
 - [x] Initial project scaffolding
-- [x] API integrations
+- [x] API integrations with AppTweak
 - [x] Database schema design
 - [x] Backend API development
 - [x] Frontend dashboard components
+- [ ] Full backend implementation
 - [ ] Analytics engine
 - [ ] Insights and recommendations
-- [ ] Deployment and CI/CD setup
-- [ ] Unit and integration tests
 - [ ] Multi-app comparison
 - [ ] Customizable dashboard layout
 - [ ] Advanced reporting and export options
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
