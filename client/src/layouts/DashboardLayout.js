@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   FiHome, 
   FiGrid, 
@@ -9,7 +8,6 @@ import {
   FiTrello, 
   FiUsers, 
   FiSettings, 
-  FiLogOut, 
   FiMenu, 
   FiX, 
   FiBell,
@@ -18,14 +16,7 @@ import {
 
 const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { currentUser, logout } = useAuth();
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   // Navigation items
   const navItems = [
@@ -88,7 +79,7 @@ const DashboardLayout = ({ children }) => {
             </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-900">
-                {currentUser?.name || 'User'}
+                Demo User
               </p>
               <div className="flex mt-1">
                 <Link 
@@ -100,7 +91,6 @@ const DashboardLayout = ({ children }) => {
                 </Link>
                 <span className="mx-1 text-gray-500">·</span>
                 <button 
-                  onClick={handleLogout} 
                   className="text-xs font-medium text-gray-500 hover:text-primary-600"
                 >
                   Logout
