@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import './App.css';
 
 // Layouts
 import DashboardLayout from './layouts/DashboardLayout';
@@ -53,27 +54,29 @@ const PublicRoute = ({ children }) => {
 
 function App() {
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<PublicRoute><Navigate to="/login" /></PublicRoute>} />
-      <Route path="/login" element={<PublicRoute><AuthLayout><Login /></AuthLayout></PublicRoute>} />
-      <Route path="/register" element={<PublicRoute><AuthLayout><Register /></AuthLayout></PublicRoute>} />
-      <Route path="/forgot-password" element={<PublicRoute><AuthLayout><ForgotPassword /></AuthLayout></PublicRoute>} />
+    <div className="app-container">
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<PublicRoute><Navigate to="/login" /></PublicRoute>} />
+        <Route path="/login" element={<PublicRoute><AuthLayout><Login /></AuthLayout></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><AuthLayout><Register /></AuthLayout></PublicRoute>} />
+        <Route path="/forgot-password" element={<PublicRoute><AuthLayout><ForgotPassword /></AuthLayout></PublicRoute>} />
 
-      {/* Protected Routes */}
-      <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout><Dashboard /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/apps" element={<ProtectedRoute><DashboardLayout><Apps /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/apps/:id" element={<ProtectedRoute><DashboardLayout><AppDetail /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/keywords" element={<ProtectedRoute><DashboardLayout><Keywords /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/keywords/:id" element={<ProtectedRoute><DashboardLayout><KeywordDetail /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/reviews" element={<ProtectedRoute><DashboardLayout><Reviews /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/categories" element={<ProtectedRoute><DashboardLayout><Categories /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/competitors" element={<ProtectedRoute><DashboardLayout><Competitors /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/profile" element={<ProtectedRoute><DashboardLayout><Profile /></DashboardLayout></ProtectedRoute>} />
-      
-      {/* 404 Route */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        {/* Protected Routes */}
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout><Dashboard /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/apps" element={<ProtectedRoute><DashboardLayout><Apps /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/apps/:id" element={<ProtectedRoute><DashboardLayout><AppDetail /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/keywords" element={<ProtectedRoute><DashboardLayout><Keywords /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/keywords/:id" element={<ProtectedRoute><DashboardLayout><KeywordDetail /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/reviews" element={<ProtectedRoute><DashboardLayout><Reviews /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/categories" element={<ProtectedRoute><DashboardLayout><Categories /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/competitors" element={<ProtectedRoute><DashboardLayout><Competitors /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><DashboardLayout><Profile /></DashboardLayout></ProtectedRoute>} />
+        
+        {/* 404 Route */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
   );
 }
 
