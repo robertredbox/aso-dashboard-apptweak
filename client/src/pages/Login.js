@@ -22,18 +22,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!email || !password) {
-      return;
-    }
-    
     setIsSubmitting(true);
     
-    // In this demo version, we're not actually validating credentials
-    // Just logging in directly
-    login();
-    navigate('/dashboard');
-    
-    setIsSubmitting(false);
+    try {
+      const success = await login({ email, password });
+      
+      if (success) {
+        navigate('/dashboard');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -61,8 +60,7 @@ const Login = () => {
               name="email"
               type="email"
               autoComplete="email"
-              required
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
               placeholder="Enter your email"
               value={email}
               onChange={handleChange}
@@ -91,8 +89,7 @@ const Login = () => {
               name="password"
               type="password"
               autoComplete="current-password"
-              required
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
               placeholder="Enter your password"
               value={password}
               onChange={handleChange}
@@ -119,10 +116,10 @@ const Login = () => {
           </Link>
         </p>
       </div>
-
-      <div className="mt-4 p-4 bg-gray-50 rounded-md">
-        <p className="text-sm text-gray-600 text-center">
-          <strong>Demo Note:</strong> Any email/password will work in this demo version.
+      
+      <div className="mt-6 text-center">
+        <p className="text-xs text-gray-500">
+          This is a demo version. You can sign in with any email and password.
         </p>
       </div>
     </div>
