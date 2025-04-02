@@ -22,14 +22,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    if (!email || !password) {
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
-      const success = await login({ email, password });
-      
-      if (success) {
-        navigate('/dashboard');
-      }
+      // For demo purposes, just call the login function directly
+      login();
+      navigate('/dashboard');
     } finally {
       setIsSubmitting(false);
     }
@@ -46,6 +48,13 @@ const Login = () => {
         </div>
       )}
       
+      <div className="p-4 bg-blue-50 rounded-md border border-blue-200 mb-6">
+        <h2 className="font-medium text-blue-700 mb-2">Demo Mode</h2>
+        <p className="text-blue-600 text-sm">
+          This is a demo version of the ASO Dashboard. You can click the Sign in button without entering credentials.
+        </p>
+      </div>
+      
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -60,7 +69,6 @@ const Login = () => {
               name="email"
               type="email"
               autoComplete="email"
-              required
               className="input pl-10"
               placeholder="Enter your email"
               value={email}
@@ -90,7 +98,6 @@ const Login = () => {
               name="password"
               type="password"
               autoComplete="current-password"
-              required
               className="input pl-10"
               placeholder="Enter your password"
               value={password}
