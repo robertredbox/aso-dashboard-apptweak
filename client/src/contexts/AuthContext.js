@@ -8,19 +8,14 @@ export const useAuth = () => useContext(AuthContext);
 
 // Provider component
 export const AuthProvider = ({ children }) => {
-  // For demo purposes, we'll skip actual authentication and assume the user is logged in
-  const [currentUser, setCurrentUser] = useState({
-    name: 'Demo User',
-    email: 'demo@example.com',
-    role: 'user'
-  });
+  // For this demo, we're hardcoding authentication
+  // In a real app, this would check JWT tokens and connect to the backend
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // Create the value object for the context
   const value = {
-    currentUser,
     isAuthenticated,
     isLoading,
     error,
